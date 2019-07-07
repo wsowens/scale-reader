@@ -1,2 +1,5 @@
 .antlr
+.vscode
+build/*
+aup/*
 __pycache__/*
