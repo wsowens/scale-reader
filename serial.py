@@ -1,4 +1,4 @@
-import sys
+import argparse
 from antlr4 import *
 from build.SerialLexer import SerialLexer
 from build.SerialParser import SerialParser
@@ -44,15 +44,6 @@ class TestVisitor(SerialVisitor):
 # This class defines a complete listener for a parse tree produced by SerialParser.
 class TestListener(SerialListener):
 
-    # Enter a parse tree produced by SerialParser#song.
-    def enterSong(self, ctx:SerialParser.SongContext):
-        print("enter song")
-
-    # Exit a parse tree produced by SerialParser#song.
-    def exitSong(self, ctx:SerialParser.SongContext):
-        print("exit song")
-
-
     # Enter a parse tree produced by SerialParser#chord.
     def enterChord(self, ctx:SerialParser.ChordContext):
         sounds = [SOUNDS[note.getText().lower()] for note in ctx.note()]
@@ -64,17 +55,12 @@ class TestListener(SerialListener):
         while pygame.mixer.get_busy():
             sleep(.1)
 
-    # Enter a parse tree produced by SerialParser#note.
-    def enterNote(self, ctx:SerialParser.NoteContext):
-        print("enter note")
 
-    # Exit a parse tree produced by SerialParser#note.
-    def exitNote(self, ctx:SerialParser.NoteContext):
-        print("exit note")
-
-
-def main(argv):
-    input_stream = FileStream(argv[1])
+def main(file_stream):
+    if file_stream is not None:
+        input_stream = FileStream(file_stream)
+    else:
+        input_stream = StdinStream()
     lexer = SerialLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = SerialParser(stream)
@@ -85,7 +71,10 @@ def main(argv):
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
 
-    
+
+arg_parser = argparse.ArgumentParser(description="Run .serial files.")
+arg_parser.add_argument("file", nargs='?', help="File to sight read [default: stdin]")
  
 if __name__ == '__main__':
-    main(sys.argv)
+    args = arg_parser.parse_args()
+    main(args.file)
