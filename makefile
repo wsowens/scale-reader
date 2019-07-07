@@ -3,7 +3,7 @@ ANTLR = java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" o
 default: build/SerialVisitor.py
 
 build/SerialVisitor.py:
-	$(ANTLR) -o build -Dlanguage=Python3 Serial.g4 -no-listener -visitor
+	$(ANTLR) -o build -Dlanguage=Python3 Serial.g4 -visitor
 
 clean:
 	rm -rf build

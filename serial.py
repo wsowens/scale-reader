@@ -3,6 +3,7 @@ from antlr4 import *
 from build.SerialLexer import SerialLexer
 from build.SerialParser import SerialParser
 from build.SerialVisitor import SerialVisitor
+from build.SerialListener import SerialListener
 from time import sleep
 from os import environ
 
@@ -40,6 +41,37 @@ class TestVisitor(SerialVisitor):
     def visitNote(self, ctx:SerialParser.NoteContext):
         return self.visitChildren(ctx)
 
+# This class defines a complete listener for a parse tree produced by SerialParser.
+class TestListener(SerialListener):
+
+    # Enter a parse tree produced by SerialParser#song.
+    def enterSong(self, ctx:SerialParser.SongContext):
+        print("enter song")
+
+    # Exit a parse tree produced by SerialParser#song.
+    def exitSong(self, ctx:SerialParser.SongContext):
+        print("exit song")
+
+
+    # Enter a parse tree produced by SerialParser#chord.
+    def enterChord(self, ctx:SerialParser.ChordContext):
+        sounds = [SOUNDS[note.getText().lower()] for note in ctx.note()]
+        for sound in sounds:
+            sound.play()
+
+    # Exit a parse tree produced by SerialParser#chord.
+    def exitChord(self, ctx:SerialParser.ChordContext):
+        while pygame.mixer.get_busy():
+            sleep(.1)
+
+    # Enter a parse tree produced by SerialParser#note.
+    def enterNote(self, ctx:SerialParser.NoteContext):
+        print("enter note")
+
+    # Exit a parse tree produced by SerialParser#note.
+    def exitNote(self, ctx:SerialParser.NoteContext):
+        print("exit note")
+
 
 def main(argv):
     input_stream = FileStream(argv[1])
@@ -47,9 +79,11 @@ def main(argv):
     stream = CommonTokenStream(lexer)
     parser = SerialParser(stream)
     tree = parser.song()
-
-    visitor = TestVisitor()
-    return visitor.visit(tree)
+    #visitor = TestVisitor()
+    #return visitor.visit(tree)
+    listener = TestListener()
+    walker = ParseTreeWalker()
+    walker.walk(listener, tree)
 
     
  
