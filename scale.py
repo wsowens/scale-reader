@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 from antlr4 import *
 from build.ScaleLexer import ScaleLexer
