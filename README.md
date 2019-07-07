@@ -13,7 +13,7 @@ You must install `antlr4` to generate the parser code. Refer to [their documenta
 
 Once you have `antlr4` set up as described above, you can run simply run `make`. If your system does not have `make` installed you can run the command below:
 ```
-java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:LASSPATH" org.antlr.v4.Tool -o build -Dlanguage=Python3 Scale.g4`
+java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:CLASSPATH" org.antlr.v4.Tool -o build -Dlanguage=Python3 Scale.g4`
 ```
 
 Then, simply run `python scale.py` to start reading files!
