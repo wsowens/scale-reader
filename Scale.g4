@@ -1,4 +1,4 @@
-grammar Serial;
+grammar Scale;
 
 song: chord? (ENDLINE chord)* ENDLINE? EOF?;
 
