@@ -1,9 +1,9 @@
 ANTLR = java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool
 
-default: build/SerialVisitor.py
+default: build/ScaleListener.py
 
-build/SerialVisitor.py:
-	$(ANTLR) -o build -Dlanguage=Python3 Serial.g4 -visitor
+build/ScaleListener.py:
+	$(ANTLR) -o build -Dlanguage=Python3 Scale.g4
 
 clean:
 	rm -rf build
