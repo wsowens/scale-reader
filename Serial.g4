@@ -1,8 +1,8 @@
 grammar Serial;
 
-serial_file: chord? (ENDLINE chord)* ENDLINE? EOF?;
+song: chord? (ENDLINE chord)* ENDLINE? EOF?;
 
-chord: note (SEP note)+;
+chord: note (SEP note)*;
 
 note: DO | RE | MI | FA | SOL | LA | TI | DO ;
 
