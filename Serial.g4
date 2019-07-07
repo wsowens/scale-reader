@@ -1,10 +1,20 @@
 grammar Serial;
 
-serial_file: (line ';')+ EOF?;
+serial_file: chord? (ENDLINE chord)* ENDLINE? EOF?;
 
-line: word (WS word)+;
+chord: note (SEP note)+;
 
-word: 'foo' | 'bar' | 'baz';
+note: DO | RE | MI | FA | SOL | LA | TI | DO ;
 
 /* tokens for lexer */
-WS: [\t ]+;
+DO: [dD][oO];
+RE: [rR][eE];
+MI: [mM][iI];
+FA: [fF][aA];
+SOL: [sS][oO][lL];
+LA: [lL][aA];
+TI: [tT][iI];
+
+SEP: [ \t]+;
+
+ENDLINE: '\r'?'\n';
